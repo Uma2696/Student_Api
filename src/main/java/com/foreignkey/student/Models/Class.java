@@ -2,18 +2,16 @@ package com.foreignkey.student.Models;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(name = "class")
+@Table(schema = "MYSCHEMA")
 public
 class Class {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "section",unique = true)
     private String section;
-
-
 
 
     public

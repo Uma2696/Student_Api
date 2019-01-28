@@ -2,11 +2,13 @@ package com.foreignkey.student.Models;
 
 import javax.persistence.*;
 
+
+//@Entity
+//@Table(name = "student")
+
 @Entity
-@Table(name = "student")
 public
 class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

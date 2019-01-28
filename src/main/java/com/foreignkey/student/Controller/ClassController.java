@@ -42,13 +42,13 @@ class ClassController {
     public
     void modifyStudentById ( @PathVariable("id") Long id, @Valid @RequestBody Student student) {
         student.setId(id);
+        classDAO.save(student);
     }
 
 
     @DeleteMapping("/{id}")
     public
-    void deleteStudent( @PathVariable Long id ) {
-
+    void deleteStudent( @PathVariable("id") Long id ) {
         classDAO.delete(id);
     }
 }

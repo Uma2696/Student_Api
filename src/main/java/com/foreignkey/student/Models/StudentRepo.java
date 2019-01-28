@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public
 interface StudentRepo extends CrudRepository <Student,Long> {
+  //  void deleteById ( Student id );
 /*
 Optional <Student> findById ( Long id );
 
