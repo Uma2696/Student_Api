@@ -1,4 +1,4 @@
-package com.foreignkey.student;
+package com.tekion.approval;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

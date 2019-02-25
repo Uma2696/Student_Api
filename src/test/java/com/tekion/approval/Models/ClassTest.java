@@ -1,4 +1,4 @@
-package com.foreignkey.student.Models;
+package com.tekion.approval.Models;
 
 import static org.junit.Assert.*;
 
