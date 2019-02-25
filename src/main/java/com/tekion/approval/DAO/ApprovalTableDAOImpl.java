@@ -24,57 +24,52 @@ class ApprovalTableDAOImpl implements ApprovalTableDAO {
     ApprovalTaskTableRepo approvalTaskTableRepo;
 
 
-
-
     @Override
-    public ApprovalTaskTable findById (Long id ) {
+    public ApprovalTaskTable findById(Long id) {
 
-        Optional <ApprovalTaskTable> optional = approvalTaskTableRepo.findById(id);
+        Optional<ApprovalTaskTable> optional = approvalTaskTableRepo.findById(id);
         return optional.orElse(null);
     }
 
     @Override
-    public
-    List <ApprovalTable> findAll () {
-        return (List <ApprovalTable>) approvalTableRepo.findAll( );
+    public List<ApprovalTable> findAll() {
+        return (List<ApprovalTable>) approvalTableRepo.findAll();
     }
 
     @Override
-    public
-    ApprovalTable create ( ApprovalRequest approvalRequest ) {
+    public ApprovalTable create(ApprovalRequest approvalRequest) {
 
-        ArrayList<ApprovalTable> existRecords= (ArrayList<ApprovalTable>) approvalTableRepo.findAll();
-        String status ;
+        ArrayList<ApprovalTable> existRecords = (ArrayList<ApprovalTable>) approvalTableRepo.findAll();
+        String status;
         String finalStatus = "";
         String approver = "Associate";
         Long next = null;
         String id = null;
-        if(existRecords.size() != 0) {
+        if (existRecords.size() != 0) {
             for (ApprovalTable fetch : existRecords) {
                 status = fetch.getFinalStatus();
                 if (!status.equals("PENDING")) {
                     if (!status.equals("OPEN")) {
-                       finalStatus= "PENDING";
+                        finalStatus = "PENDING";
                     } else {
-                        finalStatus="OPEN";
+                        finalStatus = "OPEN";
                         break;
                     }
                 } else {
-                    finalStatus="OPEN";
+                    finalStatus = "OPEN";
                     break;
 
                 }
             }
-        }
-        else{
-            finalStatus="PENDING";
+        } else {
+            finalStatus = "PENDING";
         }
 
 
         ApprovalTable approvalTable = approvalRequest.createApprovalTable(finalStatus);
-       ApprovalTable result = approvalTableRepo.save(approvalTable);
+        ApprovalTable result = approvalTableRepo.save(approvalTable);
 
-        if(approvalRequest.getApprovalType().equals("chain")) {
+        if (approvalRequest.getApprovalType().equalsIgnoreCase("chain")) {
             for (int i = 1; i <= 3; i++) {
                 if (i == 1) {
                     approver = "Associate";
@@ -83,24 +78,24 @@ class ApprovalTableDAOImpl implements ApprovalTableDAO {
                 } else {
                     approver = "Manager";
                 }
-                ApprovalTaskTable approvalTaskTable = approvalRequest.createApprovalTaskTable(approver,next);
+                ApprovalTaskTable approvalTaskTable =
+                        approvalRequest.createApprovalTaskTable(approver, next, result);
                 next = approvalTaskTable.getApprovalTaskId();
-                 List<ApprovalTaskTable> approvalTaskTableList = new ArrayList<ApprovalTaskTable>();
+                List<ApprovalTaskTable> approvalTaskTableList = new ArrayList<>();
                 approvalTaskTableList.add(approvalTaskTable);
-                approvalTable.setApprovalTaskTables(approvalTaskTableList);
+//                approvalTable.setApprovalTaskTables(approvalTaskTableList);
                 approvalTaskTableRepo.save(approvalTaskTable);
 
             }
-        }
-        else {
-            ApprovalTaskTable approvalTaskTable = approvalRequest.createApprovalTaskTable(approver,next);
-           List<ApprovalTaskTable> approvalTaskTableList=new ArrayList<ApprovalTaskTable>();
+        } else {
+            ApprovalTaskTable approvalTaskTable = approvalRequest.createApprovalTaskTable(approver, next, result);
+            List<ApprovalTaskTable> approvalTaskTableList = new ArrayList<ApprovalTaskTable>();
             approvalTaskTableList.add(approvalTaskTable);
-            approvalTable.setApprovalTaskTables(approvalTaskTableList);
+//            approvalTable.setApprovalTaskTables(approvalTaskTableList);
             approvalTaskTableRepo.save(approvalTaskTable);
         }
 
-      // ApprovalTable result = approvalTableRepo.save(approvalTable);
+        // ApprovalTable result = approvalTableRepo.save(approvalTable);
 
         if (result == null) {
             throw new AssertionError("Table not found");
@@ -109,8 +104,7 @@ class ApprovalTableDAOImpl implements ApprovalTableDAO {
     }
 
     @Override
-    public
-    void delete ( Long id ) {
+    public void delete(Long id) {
         approvalTaskTableRepo.deleteById(id);
     }
 

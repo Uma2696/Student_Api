@@ -87,10 +87,10 @@ public class ApprovalRequest {
     }
 
 
-    public ApprovalTaskTable createApprovalTaskTable(String approvar,Long next) {
+    public ApprovalTaskTable createApprovalTaskTable(String approvar, Long next, ApprovalTable result) {
         ApprovalTaskTable approvalTaskTable=new ApprovalTaskTable();
        // approvalTaskTable.setApprovalTaskId(UUID.randomUUID().toString());
-       // approvalTaskTable.setApprovalTaskId(id);
+        approvalTaskTable.setApprovalId(result.getApprovalId());
         approvalTaskTable.setAssetId(getAssetId());
         approvalTaskTable.setAssetType(getAssetType());
         approvalTaskTable.setSenderId(getSenderId());

@@ -22,9 +22,11 @@ class ApprovalTaskTable {
     private String approver;
     @Column(name = "next")
     private Long next;
-    @ManyToOne
-    @JoinColumn(name = "approval_id")
-    private ApprovalTable approvalTable;
+    @Column(name = "approval_id")
+    private Long approvalId;
+//    @ManyToOne(targetEntity = ApprovalTable.class, cascade = CascadeType.ALL, optional = false)
+//    @JoinColumn(name = "approval_id")
+//    private ApprovalTable approvalTable;
 //    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 //    @JoinColumn(name = "approvalTaskId")
 //    private List<ApprovalTable> approvalTables;
@@ -78,4 +80,11 @@ class ApprovalTaskTable {
         this.next = next;
     }
 
+    public Long getApprovalId() {
+        return approvalId;
+    }
+
+    public void setApprovalId(Long approvalId) {
+        this.approvalId = approvalId;
+    }
 }

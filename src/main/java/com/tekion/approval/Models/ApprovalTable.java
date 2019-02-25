@@ -11,13 +11,12 @@ class ApprovalTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long approvalId;
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "approvalTable" )
-    private List<ApprovalTaskTable> approvalTaskTables;
+    //    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "approvalTable" )
+//    private List<ApprovalTaskTable> approvalTaskTables;
     @Column(name = "ApprovalType")
     private String approvalType;
-    @Column(name="finalStatus")
+    @Column(name = "finalStatus")
     private String finalStatus;
-
 
 
     public Long getApprovalId() {
@@ -44,11 +43,4 @@ class ApprovalTable {
         this.finalStatus = finalStatus;
     }
 
-    public List<ApprovalTaskTable> getApprovalTaskTables() {
-        return approvalTaskTables;
-    }
-
-    public void setApprovalTaskTables(List<ApprovalTaskTable> approvalTaskTables) {
-        this.approvalTaskTables = approvalTaskTables;
-    }
 }
